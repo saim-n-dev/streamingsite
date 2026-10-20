@@ -19,3 +19,8 @@ pub struct TmdbResponse {
     pub results: Vec<Movie>,
     pub total_pages: i32,
 }
+
+#[derive(Deserialize)]
+pub struct PageQuery {
+    pub page: Option<i32>,
+}

@@ -6,7 +6,7 @@ use std::env;
 mod handlers;
 mod models;
 mod state;
-use handlers::root;
+use handlers::{root, get_trending_movies};
 use state::AppState;
 
 #[tokio::main]
@@ -17,7 +17,10 @@ async fn main() {
         tmdb_api_key: api_key,
         client: reqwest::Client::new(),
     };
-    let app = Router::new().route("/", get(root)).with_state(state);
+    let app = Router::new()
+    .route("/", get(root))
+    .route("/api/trending", get(get_trending_movies))
+    .with_state(state);
 
     let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();
     println!("Server listening on http://{}", listener.local_addr().unwrap());
